@@ -7,4 +7,7 @@ public class Endpoints {
 
     public static final String SUGGEST_ADDRESS =
             "/suggestions/api/4_1/rs/suggest/address";
+
+    public static final String SUGGEST_BY_POSTAL =
+            "/suggestions/api/4_1/rs/suggest/postal";
 }

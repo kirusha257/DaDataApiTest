@@ -1,6 +1,7 @@
 package api;
 
 import constants.Endpoints;
+import dto.RequestBody;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
 import specs.Specification;
@@ -13,43 +14,36 @@ public class NegativeTest {
 
     @Test
     void invalidTokenTest() {
+        System.out.println(
+                Thread.currentThread().getName()
+                        + " -> NegativeTest"
+        );
 
-        Response response =
-                given()
-                        .spec(
-                                Specification.requestSpec(
-                                        Config.get("suggestions.url")
-                                )
-                        )
-                        .header(
-                                "Authorization",
-                                "Token wrong_token"
-                        )
-                        .body("""
-                                {
-                                  "query": "Москва"
-                                }
-                                """)
-                        .when()
-                        .post(Endpoints.SUGGEST_ADDRESS);
-
-        response.then()
-                .log().body()
-                .statusCode(400);
-    }
-
-    @Test
-    void requestWithoutTokenTest() {
+        RequestBody requestBody = new RequestBody(Config.get("negative.query"));
 
         Response response =
                 given()
                         .baseUri(Config.get("suggestions.url"))
                         .contentType("application/json")
-                        .body("""
-                                {
-                                  "query": "Москва"
-                                }
-                                """)
+                        .header("Authorization", "Token " + Config.get("negative.invalid.token"))
+                        .body(requestBody)
+                        .when()
+                        .post(Endpoints.SUGGEST_ADDRESS);
+
+        response.then()
+                .log().body()
+                .statusCode(403);
+    }
+
+    @Test
+    void requestWithoutTokenTest() {
+        RequestBody requestBody = new RequestBody(Config.get("negative.query"));
+
+        Response response =
+                given()
+                        .baseUri(Config.get("suggestions.url"))
+                        .contentType("application/json")
+                        .body(requestBody)
                         .when()
                         .post(Endpoints.SUGGEST_ADDRESS);
 
@@ -60,19 +54,12 @@ public class NegativeTest {
 
     @Test
     void emptyQueryTest() {
+        RequestBody requestBody = new RequestBody("");
 
         Response response =
                 given()
-                        .spec(
-                                Specification.requestSpec(
-                                        Config.get("suggestions.url")
-                                )
-                        )
-                        .body("""
-                                {
-                                  "query": ""
-                                }
-                                """)
+                        .spec(Specification.requestSpec(Config.get("suggestions.url")))
+                        .body(requestBody)
                         .when()
                         .post(Endpoints.SUGGEST_ADDRESS);
 
@@ -89,19 +76,12 @@ public class NegativeTest {
 
     @Test
     void incorrectQueryTest() {
+        RequestBody requestBody = new RequestBody(Config.get("negative.incorrect.query"));
 
         Response response =
                 given()
-                        .spec(
-                                Specification.requestSpec(
-                                        Config.get("suggestions.url")
-                                )
-                        )
-                        .body("""
-                                {
-                                  "query": "qwerty123456789"
-                                }
-                                """)
+                        .spec(Specification.requestSpec(Config.get("suggestions.url")))
+                        .body(requestBody)
                         .when()
                         .post(Endpoints.SUGGEST_ADDRESS);
 

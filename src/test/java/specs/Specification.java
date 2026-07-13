@@ -1,22 +1,18 @@
 package specs;
 
-import io.restassured.builder.RequestSpecBuilder;
-import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
 
+import static io.restassured.RestAssured.given;
 
 public class Specification {
 
-
     public static RequestSpecification requestSpec(String url) {
+        String token = System.getenv("DADATA_TOKEN");
 
-        return new RequestSpecBuilder()
-                .setBaseUri(url)
-                .setContentType(ContentType.JSON)
-                .addHeader(
-                        "Authorization",
-                        "Token " + System.getenv("DADATA_TOKEN")
-                )
-                .build();
+        return given()
+                .baseUri(url)
+                .contentType("application/json")
+                .auth()
+                .oauth2("Token " + System.getenv("DADATA_TOKEN"));
     }
 }

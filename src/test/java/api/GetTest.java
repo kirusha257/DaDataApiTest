@@ -14,6 +14,10 @@ public class GetTest {
 
     @Test
     void testGetAddress() {
+        System.out.println(
+                Thread.currentThread().getName()
+                        + " -> GetTest"
+        );
 
         Response response =
                 given()
@@ -26,23 +30,22 @@ public class GetTest {
                 .log().all()
                 .statusCode(200);
 
-        IpAddressResponse result =
-                response.as(IpAddressResponse.class);
+        IpAddressResponse result = response.as(IpAddressResponse.class);
 
         assertNotNull(result.getLocation());
 
         assertEquals(
-                "Пермский край, г Кунгур",
+                Config.get("expected.location"),
                 result.getLocation().getValue()
         );
 
         assertEquals(
-                "Россия",
+                Config.get("expected.country"),
                 result.getLocation().getData().getCountry()
         );
 
         assertEquals(
-                "Кунгур",
+                Config.get("expected.ip.city"),
                 result.getLocation().getData().getCity()
         );
     }
