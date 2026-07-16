@@ -4,6 +4,7 @@ import constants.Endpoints;
 import dto.IpAddressResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.DisplayName;
 import specs.Specification;
 import utils.Config;
 
@@ -13,6 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class GetTest {
 
     @Test
+    @DisplayName("Определение адреса по IP возвращает ожидаемую локацию")
     void testGetAddress() {
         System.out.println(
                 Thread.currentThread().getName()

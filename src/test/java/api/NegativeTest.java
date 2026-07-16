@@ -4,6 +4,7 @@ import constants.Endpoints;
 import dto.RequestBody;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.DisplayName;
 import specs.Specification;
 import utils.Config;
 
@@ -13,6 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class NegativeTest {
 
     @Test
+    @DisplayName("Запрос с невалидным токеном возвращает 403")
     void invalidTokenTest() {
         System.out.println(
                 Thread.currentThread().getName()
@@ -36,6 +38,7 @@ public class NegativeTest {
     }
 
     @Test
+    @DisplayName("Запрос без токена возвращает 401")
     void requestWithoutTokenTest() {
         RequestBody requestBody = new RequestBody(Config.get("negative.query"));
 
@@ -53,6 +56,7 @@ public class NegativeTest {
     }
 
     @Test
+    @DisplayName("Пустой или некорректный query не возвращает подсказок")
     void emptyQueryTest() {
         RequestBody requestBody = new RequestBody("");
 
@@ -75,6 +79,7 @@ public class NegativeTest {
     }
 
     @Test
+    @DisplayName("Запрос по IP без результата возвращает пустую локацию")
     void incorrectQueryTest() {
         RequestBody requestBody = new RequestBody(Config.get("negative.incorrect.query"));
 

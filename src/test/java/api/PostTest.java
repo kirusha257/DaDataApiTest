@@ -6,6 +6,7 @@ import dto.RequestBody;
 import dto.Suggestion;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.DisplayName;
 import specs.Specification;
 import utils.Config;
 
@@ -15,6 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class PostTest {
 
     @Test
+    @DisplayName("Подсказка адреса по названию города возвращает корректную страну и город")
     void testSuggestAddress() {
         System.out.println(
                 Thread.currentThread().getName()
